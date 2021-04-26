@@ -30,24 +30,22 @@ class AppController extends Controller
         $this->conversion = $conversion;
     }
 
-    public function main(): View
+    public function main(Request $request): View
     {
-        return view('main', ['currencies' => $this->currencyService->all(), 'props' => $this->props]);
-    }
-
-    public function convert(Request $request): View
-    {
-        $result = $this->conversion->do(
-            $this->currencyService->find($request->get('symbol')),
-            (float)($request->get('amount') ?? 0)
-        );
-        return view('main', [
+        $bladeVariables = [
             'currencies' => $this->currencyService->all(),
-            'props' => $this->props,
-            'result' => $result ?? '',
-            'selectedSymbol' => $request->get('symbol') ?? 'AUD',
-            'chosenAmount' => $request->get('amount') ?? '0'
-        ]);
+            'props' => $this->props
+        ];
+        if ($request->method() === 'POST') {
+            $result = $this->conversion->do(
+                $this->currencyService->find($request->post('symbol')),
+                (float)($request->post('amount') ?? 0)
+            );
+            $bladeVariables['result'] = $result ?? '';
+            $bladeVariables['selectedSymbol'] = $request->post('symbol') ?? 'AUD';
+            $bladeVariables['chosenAmount'] = $request->post('amount') ?? '0';
+        }
+        return view('main', $bladeVariables);
     }
 
     public function getRate(string $symbol): View

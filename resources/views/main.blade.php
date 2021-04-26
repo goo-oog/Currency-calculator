@@ -7,7 +7,7 @@
     <title>Valūtas kalkulators</title>
 </head>
 <body>
-<form method="get" action="/convert">
+<form method="post">
     <select id="currencies" name="symbol" class="text-xl">
         @foreach ($currencies as $currency)
             <option value="{{ $currency->symbol }}"
