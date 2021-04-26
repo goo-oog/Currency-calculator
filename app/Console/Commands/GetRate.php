@@ -44,7 +44,7 @@ class GetRate extends Command
      */
     public function handle(): int
     {
-        $currency=$this->currencyService->execute($this->argument('symbol'));
+        $currency = $this->currencyService->find($this->argument('symbol'));
         echo "{$currency->getAttributes()['symbol']}\t{$currency->getAttributes()['rate']}";
         return 0;
     }

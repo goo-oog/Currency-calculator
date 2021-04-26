@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',[AppController::class,'main']);
-Route::get('/rate/{symbol}',[AppController::class,'getRate']);
-Route::get('/bank',[AppController::class, 'getRatesFromBank']);
+Route::get('/', [AppController::class, 'main']);
+Route::get('/currency/{symbol}', [AppController::class, 'getRate']);
+Route::get('/convert', [AppController::class, 'convert']);
+Route::get('/bank', [AppController::class, 'getRatesFromBank']);

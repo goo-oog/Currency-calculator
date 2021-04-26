@@ -10,8 +10,8 @@
 <body>
 <table>
     <tr>
-        <td>{{$symbol}}</td>
-        <td>{{str_replace('.',',',round($rate,2))}}</td>
+        <td><h1>{{$symbol}}</h1></td>
+        <td><h2>{{str_replace('.',',',round($rate,2))}}</h2></td>
     </tr>
 </table>
 </body>

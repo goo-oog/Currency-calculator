@@ -3,33 +3,60 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\Currency;
 use App\Services\BankService;
+use App\Services\ConversionService;
+use App\Services\CurrencyPropertiesService;
 use App\Services\ShowCurrencyService;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class AppController extends Controller
 {
     private BankService $bank;
     private ShowCurrencyService $currencyService;
+    private CurrencyPropertiesService $props;
+    private ConversionService $conversion;
 
-    public function __construct(BankService $bank,ShowCurrencyService $currencyService)
+    public function __construct(
+        BankService $bank,
+        ShowCurrencyService $currencyService,
+        CurrencyPropertiesService $props,
+        ConversionService $conversion
+    )
     {
-        $this->bank=$bank;
-        $this->currencyService=$currencyService;
+        $this->bank = $bank;
+        $this->currencyService = $currencyService;
+        $this->props = $props;
+        $this->conversion = $conversion;
     }
 
-    public function main()
+    public function main(): View
     {
-        return view('main');
+        return view('main', ['currencies' => $this->currencyService->all(), 'props' => $this->props]);
     }
 
-    public function getRate(string $symbol)
+    public function convert(Request $request): View
     {
-        $currency=$this->currencyService->execute($symbol);
-        return view('currency',$currency);
+        $result = $this->conversion->do(
+            $this->currencyService->find($request->get('symbol')),
+            (float)($request->get('amount') ?? 0)
+        );
+        return view('main', [
+            'currencies' => $this->currencyService->all(),
+            'props' => $this->props,
+            'result' => $result ?? '',
+            'selectedSymbol' => $request->get('symbol') ?? 'AUD',
+            'chosenAmount' => $request->get('amount') ?? '0'
+        ]);
     }
 
-    public function getRatesFromBank():void
+    public function getRate(string $symbol): View
+    {
+        $currency = $this->currencyService->find($symbol);
+        return view('currency', $currency);
+    }
+
+    public function getRatesFromBank(): void
     {
         $this->bank->getRates();
     }
