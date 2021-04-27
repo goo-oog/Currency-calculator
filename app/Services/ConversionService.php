@@ -7,8 +7,9 @@ use App\Models\Currency;
 
 class ConversionService
 {
-    public function do(Currency $currency, float $amount): string
+    public function do(Currency $currency, string $amount): string
     {
-        return (string)round($currency->rate * $amount, 2);
+        $amount = str_replace(',', '.', $amount);
+        return str_replace('.', ',', sprintf('%0.2f', $currency->rate * $amount));
     }
 }

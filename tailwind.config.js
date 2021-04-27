@@ -4,7 +4,11 @@ module.exports = {
     ],
     darkMode: false, // or 'media' or 'class'
     theme: {
-        extend: {},
+        extend: {
+            spacing: {
+                '26': '6.5rem',
+            }
+        },
     },
     variants: {
         extend: {},

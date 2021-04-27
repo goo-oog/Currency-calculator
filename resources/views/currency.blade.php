@@ -8,10 +8,13 @@
     <title>Valūtas kalkulators</title>
 </head>
 <body>
-<table>
+<table style="margin-right: auto;margin-left: auto">
     <tr>
-        <td><h1>{{$symbol}}</h1></td>
-        <td><h2>{{str_replace('.',',',round($rate,2))}}</h2></td>
+        <td><h1> 1 </h1></td>
+        <td><h3>EUR</h3></td>
+        <td><h1>&ensp;=&ensp;</h1></td>
+        <td><h1>{{round($rate,2)}}</h1></td>
+        <td><h3>{{$symbol}}</h3></td>
     </tr>
 </table>
 </body>

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use App\Http\Controllers\AppController;
 use Illuminate\Support\Facades\Route;
@@ -16,5 +17,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AppController::class, 'main']);
 Route::post('/', [AppController::class, 'main']);
+
+// experimental alternative to display single currency rate
 Route::get('/currency/{symbol}', [AppController::class, 'getRate']);
-Route::get('/bank', [AppController::class, 'getRatesFromBank']);
